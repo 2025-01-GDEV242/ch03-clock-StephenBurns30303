@@ -57,6 +57,18 @@ public class ClockDisplay
         {  // it just rolled over!
             hours.increment();
             
+            if(hours.getValue()==12 || hours.getValue()==24)
+            {
+                if(timeOfDays=="AM")
+                {
+                    timeOfDays="PM";
+                }
+                else
+                {
+                    timeOfDays="AM";
+                }
+            }
+            
         }
         updateDisplay();
     }
