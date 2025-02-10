@@ -19,15 +19,16 @@ public class ClockDisplay
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
-    
+    private String timeOfDays;
     /**
      * Constructor for ClockDisplay objects. This constructor 
      * creates a new clock set at 00:00.
      */
     public ClockDisplay()
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
+        timeOfDays="AM";
         updateDisplay();
     }
 
@@ -36,11 +37,12 @@ public class ClockDisplay
      * creates a new clock set at the time specified by the 
      * parameters.
      */
-    public ClockDisplay(int hour, int minute)
+    public ClockDisplay(int hour, int minute, String timeOfDay)
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
-        setTime(hour, minute);
+        timeOfDays = timeOfDay;
+        setTime(hour, minute, timeOfDay);
     }
 
     /**
@@ -50,7 +52,8 @@ public class ClockDisplay
     public void timeTick()
     {
         minutes.increment();
-        if(minutes.getValue() == 0) {  // it just rolled over!
+        if(minutes.getValue() == 0) 
+        {  // it just rolled over!
             hours.increment();
         }
         updateDisplay();
@@ -60,10 +63,11 @@ public class ClockDisplay
      * Set the time of the display to the specified hour and
      * minute.
      */
-    public void setTime(int hour, int minute)
+    public void setTime(int hour, int minute, String timeOfDay)
     {
         hours.setValue(hour);
         minutes.setValue(minute);
+        timeOfDays=timeOfDay;
         updateDisplay();
     }
 
@@ -81,6 +85,6 @@ public class ClockDisplay
     private void updateDisplay()
     {
         displayString = hours.getDisplayValue() + ":" + 
-                        minutes.getDisplayValue();
+                        minutes.getDisplayValue() + " " + timeOfDays;
     }
 }
