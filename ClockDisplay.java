@@ -26,7 +26,7 @@ public class ClockDisplay
      */
     public ClockDisplay()
     {
-        hours = new NumberDisplay(12);
+        hours = new NumberDisplay(13);
         minutes = new NumberDisplay(60);
         timeOfDays="AM";
         updateDisplay();
@@ -39,7 +39,7 @@ public class ClockDisplay
      */
     public ClockDisplay(int hour, int minute, String timeOfDay)
     {
-        hours = new NumberDisplay(12);
+        hours = new NumberDisplay(13);
         minutes = new NumberDisplay(60);
         timeOfDays = timeOfDay;
         setTime(hour, minute, timeOfDay);
@@ -55,12 +55,18 @@ public class ClockDisplay
         if(minutes.getValue() == 0) 
         {  // it just rolled over!
             hours.increment();
+            
+            if(hours.getValue()== 0)
+            {
+                hours.increment();
+            }
+
         }
         updateDisplay();
     }
 
     /**
-     * Set the time of the display to the specified hour and
+     * Set the time of the display to the specified hour, time of day, and
      * minute.
      */
     public void setTime(int hour, int minute, String timeOfDay)
@@ -72,7 +78,7 @@ public class ClockDisplay
     }
 
     /**
-     * Return the current time of this display in the format HH:MM.
+     * Return the current time of this display in the format HH:MM:ToD.
      */
     public String getTime()
     {
