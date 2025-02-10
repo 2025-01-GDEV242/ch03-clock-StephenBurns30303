@@ -19,6 +19,7 @@ public class ClockDisplay
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
+    private String timeOfDays;
     
     /**
      * Constructor for ClockDisplay objects. This constructor 
@@ -26,8 +27,9 @@ public class ClockDisplay
      */
     public ClockDisplay()
     {
-        hours = new NumberDisplay(25);
+        hours = new NumberDisplay(24);
         minutes = new NumberDisplay(60);
+        timeOfDays="AM";
         updateDisplay();
     }
 
@@ -36,11 +38,12 @@ public class ClockDisplay
      * creates a new clock set at the time specified by the 
      * parameters.
      */
-    public ClockDisplay(int hour, int minute)
+    public ClockDisplay(int hour, int minute, String timeOfDay)
     {
-        hours = new NumberDisplay(25);
+        hours = new NumberDisplay(24);
         minutes = new NumberDisplay(60);
-        setTime(hour, minute);
+        timeOfDays=timeOfDay;
+        setTime(hour, minute, timeOfDay);
     }
 
     /**
@@ -53,27 +56,6 @@ public class ClockDisplay
         if(minutes.getValue() == 0) 
         {  // it just rolled over!
             hours.increment();
-            /*
-            if(hours.getValue()== 12)
-            {
-                if(timeOfDays=="AM")
-                {
-                    timeOfDays="PM";
-                }
-                else if(timeOfDays=="AM")
-                {
-                    timeOfDays="PM";
-                }
-                else
-                {
-                    timeOfDays="Error: incorrect format or value";
-                }
-            }
-            */
-            if(hours.getValue()==0)
-            {
-                hours.increment();
-            }
             
         }
         updateDisplay();
@@ -83,10 +65,11 @@ public class ClockDisplay
      * Set the time of the display to the specified hour and
      * minute.
      */
-    public void setTime(int hour, int minute)
+    public void setTime(int hour, int minute, String timeOfDay)
     {
         hours.setValue(hour);
         minutes.setValue(minute);
+        timeOfDays=timeOfDay;
         updateDisplay();
     }
 
@@ -103,7 +86,15 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
-        displayString = hours.getDisplayValue() + ":" + 
-                        minutes.getDisplayValue()+ " ";
+        
+        int americanDisplayString=hours.getValue()%24;
+        
+        if (americanDisplayString>12)
+        {
+            americanDisplayString=americanDisplayString-12;
+        }
+        
+        displayString = americanDisplayString + ":" + 
+                        minutes.getDisplayValue()+ " " +timeOfDays;
     }
 }
